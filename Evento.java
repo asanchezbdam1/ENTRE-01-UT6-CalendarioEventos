@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Representa a un evento del calendario
- * 
+ * @author - Asier Sánchez Barberena
  */
 public class Evento {
     private String nombre;
@@ -24,10 +24,21 @@ public class Evento {
      */                 
     public Evento(String nombre, String fecha, String horaInicio,
     String horaFin) {
-         
+        nombre = nombre.trim();
+        String[] nombres = nombre.split(" +");
+        this.nombre = "";
+        int i;
+        for (i = 0; i < nombres.length - 1; i++) {
+            this.nombre += Character.toUpperCase(nombres[i].charAt(0)) +
+            nombres[i].substring(1) + " ";
+        }
+        this.nombre += Character.toUpperCase(nombres[i].charAt(0)) +
+        nombres[i].substring(1);
+        this.fecha = LocalDate.parse(fecha, formateadorFecha);
+        this.horaInicio = LocalTime.parse(horaInicio, formateadorHora);
+        this.horaFin = LocalTime.parse(horaFin, formateadorHora);
     }
 
-   
 
     /**
      * accesor para el nombre del evento
@@ -89,8 +100,9 @@ public class Evento {
      * devuelve nº de día de la semana (1 lunes, 2 martes .... 7 domingo)
      * que se obtendrá a partir de la fecha del evento
      */
-    public int getDia() {
-        return 0;
+    public Dia getDia() {
+        Dia[] dias = Dia.values();
+        return dias[fecha.getDayOfWeek().getValue() - 1];
     }
 
     /**
@@ -98,15 +110,16 @@ public class Evento {
      * que se obtendrá a partir de la fecha del evento
      */
     public Mes getMes() {
-        return null;
+        Mes[] meses = Mes.values();
+        return meses[fecha.getMonthValue() - 1];
     }
 
     /**
      * calcula y devuelve la duración del evento en minutos
      */
     public int getDuracion() {
-        return 0;
-
+        return (horaFin.getHour() - horaInicio.getHour()) * 60 +
+        horaFin.getMinute() - horaInicio.getMinute();
     }
 
     /**
@@ -117,17 +130,15 @@ public class Evento {
      * Pista! usa un objeto LocalDateTime
      */
     public boolean antesDe(Evento otro) {
-        return true;
-
+        return this.fecha.compareTo(otro.getFecha()) < 0;
     }
 
-  
     /**
      * representación textual del evento  
      */
     public String toString() {
 
-        return String.format("%8s: %s (Día semana %d)\n", "Nombre", this.nombre, this.getDia()) +
+        return String.format("%8s: %s (Día semana %s)\n", "Nombre", this.nombre, this.getDia()) +
         String.format("%8s: %s\t", "Fecha",
             this.fecha.format(formateadorFecha))   +
         String.format("%s: %s", "Hora inicio",
