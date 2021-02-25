@@ -1,3 +1,6 @@
+package programacion.entregaut6.interfaz;
+import programacion.entregaut6.modelo.*;
+import programacion.entregaut6.io.CalendarioIO;
 import java.util.Scanner;
 
 public class IUConsola {

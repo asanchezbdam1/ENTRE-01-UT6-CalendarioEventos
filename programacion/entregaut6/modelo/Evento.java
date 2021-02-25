@@ -1,3 +1,5 @@
+package programacion.entregaut6.modelo;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -25,6 +27,9 @@ public class Evento {
     public Evento(String nombre, String fecha, String horaInicio,
     String horaFin) {
         nombre = nombre.trim();
+        fecha = fecha.trim();
+        horaInicio = horaInicio.trim();
+        horaFin = horaFin.trim();
         String[] nombres = nombre.split(" +");
         this.nombre = "";
         int i;
@@ -130,6 +135,9 @@ public class Evento {
      * Pista! usa un objeto LocalDateTime
      */
     public boolean antesDe(Evento otro) {
+        if (this.fecha.compareTo(otro.getFecha()) == 0) {
+            return this.horaInicio.compareTo(otro.getHoraInicio()) < 0;
+        }
         return this.fecha.compareTo(otro.getFecha()) < 0;
     }
 

@@ -1,3 +1,5 @@
+package programacion.entregaut6.io;
+import programacion.entregaut6.modelo.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
